@@ -1,6 +1,6 @@
 # Activercord Multirange 
  
-This gem adds full suppport of [Postgress Multiranges](https://www.postgresql.org/docs/15/functions-range.html) types.
+This gem adds full suppport of [Postgress Multiranges](https://www.postgresql.org/docs/14/rangetypes.html#RANGETYPES-BUILTIN) types.
 
 ## Installation
 
