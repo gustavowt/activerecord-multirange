@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require_relative "lib/psql_multi_ranges/version"
+require_relative "lib/activerecord-multirange/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "psql_multi_ranges"
-  spec.version = PsqlMultiRanges::VERSION
+  spec.name = "activerecord-multirange"
+  spec.version = Activerecord::Multirange::VERSION
   spec.authors = ["Gustavo Warmling Teixeira"]
   spec.email = ["gustavowt@gmail.com"]
 
   spec.summary = "PostgreSQL multiranges support"
   spec.description = "Add PostgreSQL multiranges support"
-  spec.homepage = "https://github.com/gustavowt/psql_multi_ranges"
+  spec.homepage = "https://github.com/gustavowt/activerecord-multirange"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.6.0"
 

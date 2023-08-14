@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module PsqlMultiRanges
-  module Hooks
-    module TableDefinitionHook
+module Activerecord
+  module Multirange
+    module TableDefinition
       def tsmultirange(*args, **options)
         args.each do |name|
           column(name, :tsmultirange, **options)
