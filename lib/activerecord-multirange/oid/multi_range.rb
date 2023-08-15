@@ -13,6 +13,8 @@ module Activerecord
         def initialize(subtype, type = :multirange)
           @subtype = subtype
           @type = type
+
+          super
         end
 
         def deserialize(value)
@@ -115,7 +117,8 @@ module Activerecord
 
           if !infinity?(extracted[:from]) && extracted[:exclude_start]
             raise ArgumentError,
-                  "The Ruby Range object does not support excluding the beginning of a Range. (unsupported value: '#{value}')"
+                  "The Ruby Range object does not support excluding the beginning of a Range.
+                  (unsupported value: '#{value}')"
           end
 
           ::Range.new(extracted[:from], extracted[:to], extracted[:exclude_end])
