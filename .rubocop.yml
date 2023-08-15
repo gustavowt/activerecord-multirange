@@ -12,5 +12,8 @@ Style/StringLiteralsInInterpolation:
 Style/Documentation:
   Enabled: false
 
+Naming/FileName:
+  Enabled: false
+
 Layout/LineLength:
   Max: 120
