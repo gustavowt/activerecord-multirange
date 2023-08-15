@@ -1,0 +1,7 @@
+test:
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  port: 15434 
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  database: internal_test

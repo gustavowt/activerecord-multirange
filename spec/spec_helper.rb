@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 require "activerecord-multirange"
+require "combustion"
+
+Combustion.initialize! :active_record,
+                       database_reset: false,
+                       load_schema: false,
+                       database_migrate: false
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
