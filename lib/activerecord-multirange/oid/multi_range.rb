@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "active_model"
+
 module Activerecord
   module Multirange
     module OID # :nodoc:
