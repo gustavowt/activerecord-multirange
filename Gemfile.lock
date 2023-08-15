@@ -200,7 +200,7 @@ DEPENDENCIES
   pry
   rake (~> 13.0)
   rspec (~> 3.0)
-  rubocop (~> 1.21)
+  rubocop
 
 BUNDLED WITH
    2.4.13
