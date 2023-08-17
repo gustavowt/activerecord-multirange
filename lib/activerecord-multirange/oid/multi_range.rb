@@ -14,7 +14,7 @@ module Activerecord
           @subtype = subtype
           @type = type
 
-          super
+          super()
         end
 
         def deserialize(value)
