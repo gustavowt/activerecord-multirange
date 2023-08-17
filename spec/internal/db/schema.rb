@@ -4,7 +4,7 @@ ActiveRecord::Schema.define do
   # Set up any tables you need to exist for your test suite that don't belong
   # in migrations.
   #
-  create_table :testing do |t|
+  create_table :testing_records do |t|
     t.tsmultirange :column_ts
     t.tstzmultirange :column_tz
     t.datemultirange :column_date
