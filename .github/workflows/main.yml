@@ -23,11 +23,6 @@ jobs:
       postgres:
         # Docker Hub image
         image: postgres:15.4
-        # Provide the password for postgres
-        env:
-          POSTGRES_HOST_AUTH_METHOD: trust
-          POSTGRES_USER: '${USER}'
-
         ports:
           - 15434:5432
         # Set health checks to wait until postgres has started
