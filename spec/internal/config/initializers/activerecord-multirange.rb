@@ -1,0 +1,1 @@
+Activerecord::Multirange.add_multirange_column_type

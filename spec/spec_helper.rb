@@ -3,10 +3,7 @@
 require "activerecord-multirange"
 require "combustion"
 
-Combustion.initialize! :active_record,
-                       database_reset: false,
-                       load_schema: false,
-                       database_migrate: false
+Combustion.initialize! :active_record
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
