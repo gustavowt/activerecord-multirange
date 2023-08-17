@@ -1,4 +1,4 @@
-aname: Ruby
+name: Ruby
 
 on:
   push:
