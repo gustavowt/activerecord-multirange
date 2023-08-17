@@ -23,6 +23,8 @@ jobs:
       postgres:
         # Docker Hub image
         image: postgres:15.4
+        env:
+          POSTGRES_PASSWORD: postgres
         ports:
           - 15434:5432
         # Set health checks to wait until postgres has started

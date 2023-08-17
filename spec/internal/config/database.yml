@@ -3,5 +3,6 @@ test:
   encoding: unicode
   host: localhost
   port: 15434 
+  password: postgres
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   database: internal_test
