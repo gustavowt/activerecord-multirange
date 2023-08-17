@@ -2,6 +2,8 @@
  
 This gem adds full suppport of [Postgress Multiranges](https://www.postgresql.org/docs/14/rangetypes.html#RANGETYPES-BUILTIN) types.
 
+[![Gem Version](https://badge.fury.io/rb/activerecord-multirange.svg)](https://badge.fury.io/rb/activerecord-multirange)
+
 ## Installation
 
 Install the gem and add to the application's Gemfile by executing:
