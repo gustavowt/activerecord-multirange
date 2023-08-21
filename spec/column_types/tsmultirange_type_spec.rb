@@ -3,7 +3,13 @@
 require "spec_helper"
 
 RSpec.describe "TsMultirangeType" do
-  let(:multiranges) { [10.days.ago.utc..9.days.ago.utc, 5.days.ago.utc...Time.current.utc] }
+  let(:multiranges) do
+    [
+      Time.parse("2022-05-05 09:30:00 UTC")...Time.parse("2022-06-06 16:30:00 UTC"),
+      Time.parse("2022-07-01 08:30:00 UTC")..Time.parse("2022-07-22 11:30:00 UTC"),
+      Time.parse("2022-10-01 11:30:00 UTC")...::Float::INFINITY
+    ]
+  end
 
   it "initialize tsmultirange" do
     record = TestingRecord.new(column_ts: multiranges)
@@ -20,7 +26,12 @@ RSpec.describe "TsMultirangeType" do
   it "update tsmultirange" do
     record = TestingRecord.create(column_ts: multiranges)
 
-    new_multiranges = [1.week.from_now.utc..2.weeks.from_now.utc, 1.month.from_now.utc..2.months.from_now.utc]
+    new_multiranges = [
+      Time.parse("2021-05-05 09:30:00 UTC")...Time.parse("2021-06-06 16:30:00 UTC"),
+      Time.parse("2021-07-01 08:30:00 UTC")..Time.parse("2021-07-22 11:30:00 UTC"),
+      Time.parse("2021-10-01 11:30:00 UTC")...::Float::INFINITY
+    ]
+
     record.update(column_ts: new_multiranges)
 
     expect(record.reload.column_ts).to eq new_multiranges
