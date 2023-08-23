@@ -40,4 +40,25 @@ RSpec.describe "TsMultirangeType" do
 
     expect(record.reload.column_ts).to eq new_multiranges
   end
+
+  context "when values overlap each other" do
+    let(:multiranges) do
+      [
+        Time.parse("2022-05-05 09:30:00 UTC")...Time.parse("2022-06-06 16:30:00 UTC"),
+        Time.parse("2022-06-05 08:30:00 UTC")..Time.parse("2022-07-22 11:30:00 UTC"),
+        Time.parse("2022-10-01 11:30:00 UTC")...::Float::INFINITY
+      ]
+    end
+
+    it "postgres recalculate it" do
+      record = TestingRecord.create(column_ts: multiranges)
+
+      expect(record.reload.column_ts).to(
+        eq([
+             Time.parse("2022-05-05 09:30:00 UTC")..Time.parse("2022-07-22 11:30:00 UTC"),
+             Time.parse("2022-10-01 11:30:00 UTC")...::Float::INFINITY
+           ])
+      )
+    end
+  end
 end
