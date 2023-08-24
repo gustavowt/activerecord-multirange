@@ -33,4 +33,25 @@ RSpec.describe "NumMultirangeType" do
 
     expect(record.reload.column_num).to eq new_multiranges
   end
+
+  context "when values overlap each other" do
+    let(:multiranges) do
+      [
+        BigDecimal("32.3")..BigDecimal("50.2"),
+        BigDecimal("42.5")..BigDecimal("300.4"),
+        BigDecimal("900.2")...::Float::INFINITY
+      ]
+    end
+
+    it "postgres recalculate it" do
+      record = TestingRecord.create(column_num: multiranges)
+
+      expect(record.reload.column_num).to eq(
+        [
+          BigDecimal("32.3")..BigDecimal("300.4"),
+          BigDecimal("900.2")...::Float::INFINITY
+        ]
+      )
+    end
+  end
 end
