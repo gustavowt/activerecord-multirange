@@ -32,4 +32,14 @@ RSpec.describe "int8multirangeType" do
 
     expect(record.reload.column_int8).to eq new_multiranges
   end
+
+  context "when values overlap each other" do
+    let(:multiranges) { [-5000...100, 90..600, 602...::Float::INFINITY] }
+
+    it "postgres recalculate it" do
+      record = TestingRecord.create(column_int8: multiranges)
+
+      expect(record.reload.column_int8).to eq([-5000...601, 602...::Float::INFINITY])
+    end
+  end
 end
