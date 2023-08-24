@@ -32,4 +32,14 @@ RSpec.describe "Int4multirangeType" do
 
     expect(record.reload.column_int4).to eq new_multiranges
   end
+
+  context "when values overlap each other" do
+    let(:multiranges) { [-5...15, 12..50, 100...200] }
+
+    it "postgres recalculate it" do
+      record = TestingRecord.create(column_int4: multiranges)
+
+      expect(record.reload.column_int4).to eq([-5...51, 100...200])
+    end
+  end
 end
