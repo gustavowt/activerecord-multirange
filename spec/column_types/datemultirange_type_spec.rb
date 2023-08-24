@@ -40,4 +40,25 @@ RSpec.describe "DateMultirangeType" do
 
     expect(record.reload.column_date).to eq new_multiranges
   end
+
+  context "when values overlap each other" do
+    let(:multiranges) do
+      [
+        Date.new(2020, 1, 2)...Date.new(2020, 1, 30),
+        Date.new(2020, 1, 20)...Date.new(2020, 5, 11),
+        Date.new(2020, 10, 1)...::Float::INFINITY
+      ]
+    end
+
+    it "postgres recalculate it" do
+      record = TestingRecord.create(column_date: multiranges)
+
+      expect(record.reload.column_date).to(
+        eq([
+             Date.new(2020, 1, 2)...Date.new(2020, 5, 11),
+             Date.new(2020, 10, 1)...::Float::INFINITY
+           ])
+      )
+    end
+  end
 end
