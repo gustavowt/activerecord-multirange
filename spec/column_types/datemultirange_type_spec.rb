@@ -61,4 +61,10 @@ RSpec.describe "DateMultirangeType" do
       )
     end
   end
+
+  it "parse values on where clause" do
+    record = TestingRecord.create(column_date: multiranges)
+
+    expect(TestingRecord.where(column_date: multiranges).pluck(:id)).to eq [record.id]
+  end
 end
