@@ -2,7 +2,7 @@
 
 require "activerecord-multirange"
 require "combustion"
-require 'database_cleaner/active_record'
+require "database_cleaner/active_record"
 
 Combustion.initialize! :active_record
 
