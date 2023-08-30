@@ -34,6 +34,12 @@ RSpec.describe "NumMultirangeType" do
     expect(record.reload.column_num).to eq new_multiranges
   end
 
+  it "parse values on where clause" do
+    record = TestingRecord.create(column_num: multiranges)
+
+    expect(TestingRecord.where(column_num: multiranges).pluck(:id)).to eq [record.id]
+  end
+
   context "when values overlap each other" do
     let(:multiranges) do
       [
