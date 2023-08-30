@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    activerecord-multirange (0.1.0)
+    activerecord-multirange (1.0.0)
       pg (>= 1)
       rails (>= 6)
 
