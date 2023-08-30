@@ -8,6 +8,17 @@ module Activerecord
         load_multirange_types
       end
 
+      def native_database_types
+        super.merge({
+                      datemultirange: { name: "datemultirange" },
+                      nummultirange: { name: "nummultirange" },
+                      tsmultirange: { name: "tsmultirange" },
+                      tstzmultirange: { name: "tstzmultirange" },
+                      int4multirange: { name: "int4multirange" },
+                      int8multirange: { name: "int8multirange" }
+                    })
+      end
+
       def load_multirange_types
         initializer = ::ActiveRecord::ConnectionAdapters::PostgreSQLAdapter::OID::TypeMapInitializer.new(type_map)
         query = <<-QUERY
