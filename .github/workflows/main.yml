@@ -12,22 +12,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Ruby ${{ matrix.ruby-version }}
+    name: Ruby ${{ matrix.ruby-version }} Rails ${{ matrix.rails-version }}
     strategy:
       matrix:
         ruby-version: ['3.2', '3.1', '3.0']
-                # Service containers to run with `container-job`
+        rails-version: ['7.0', '8.0'] # Include Rails 7 and 8 versions in the matrix
+
     services:
-      # Label used to access the service container
       postgres:
-        # Docker Hub image
         image: postgres:15.4
         env:
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: runner
         ports:
           - 15434:5432
-        # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -36,10 +34,22 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true
-    - name: Run the default task
+
+    - name: Set Rails version
+      run: echo "RAILS_VERSION=${{ matrix.rails-version }}" >> $GITHUB_ENV
+
+    - name: Install dependencies
+      run: |
+        gem install bundler
+        bundle config set --local without 'development test' # Adjust groups as needed
+        bundle add rails --version "~> $RAILS_VERSION" # Install the correct Rails version
+        bundle install
+
+    - name: Run tests
       run: bundle exec rake
