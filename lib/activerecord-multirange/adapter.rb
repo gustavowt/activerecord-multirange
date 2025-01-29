@@ -9,26 +9,48 @@ module Activerecord
       end
 
       def native_database_types
-        super.merge({
-                      datemultirange: { name: "datemultirange" },
-                      nummultirange: { name: "nummultirange" },
-                      tsmultirange: { name: "tsmultirange" },
-                      tstzmultirange: { name: "tstzmultirange" },
-                      int4multirange: { name: "int4multirange" },
-                      int8multirange: { name: "int8multirange" }
-                    })
+        super.merge(
+          {
+            datemultirange: {
+              name: 'datemultirange'
+            },
+            nummultirange: {
+              name: 'nummultirange'
+            },
+            tsmultirange: {
+              name: 'tsmultirange'
+            },
+            tstzmultirange: {
+              name: 'tstzmultirange'
+            },
+            int4multirange: {
+              name: 'int4multirange'
+            },
+            int8multirange: {
+              name: 'int8multirange'
+            }
+          }
+        )
       end
 
       def load_multirange_types
-        initializer = ::ActiveRecord::ConnectionAdapters::PostgreSQLAdapter::OID::TypeMapInitializer.new(type_map)
-        query = <<-QUERY
-            SELECT t.oid, t.typname, t.typelem, t.typdelim, t.typinput, r.rngsubtype, t.typtype, t.typbasetype
-            FROM pg_type as t
-            JOIN pg_range as r ON oid = "rngmultitypid";
+        initializer =
+          ::ActiveRecord::ConnectionAdapters::PostgreSQLAdapter::OID::TypeMapInitializer
+            .new(type_map)
+        query = <<-QUERY.squish
+          SELECT t.oid, t.typname, t.typelem, t.typdelim, t.typinput, r.rngsubtype, t.typtype, t.typbasetype
+          FROM pg_type as t
+          JOIN pg_range as r ON t.oid = r.rngtypid;
         QUERY
 
-        execute_and_clear(query, "SCHEMA", []) do |records|
-          initializer.register_multirange_type(records)
+        if Rails::VERSION::MAJOR < 8
+          execute_and_clear(query, 'SCHEMA', []) do |records|
+            initializer.register_multirange_type(records)
+          end
+        else
+          internal_execute(query, 'SCHEMA', []) do |records|
+            initializer.register_multirange_type(records)
+          end
         end
       end
     end
