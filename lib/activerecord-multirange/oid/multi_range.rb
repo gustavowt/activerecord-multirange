@@ -78,6 +78,8 @@ module Activerecord
         # * https://www.postgresql.org/docs/current/rangetypes.html#RANGETYPES-IO
         # * https://www.postgresql.org/docs/current/rowtypes.html#ROWTYPES-IO-SYNTAX
         def unquote(value)
+          return value if value.nil?
+          
           if value.start_with?('"') && value.end_with?('"')
             unquoted_value = value[1..-2]
             unquoted_value.gsub!('""', '"')
@@ -89,15 +91,21 @@ module Activerecord
         end
 
         def parse_lower(value)
-          return infinity_value(value, negative: true) if ["", "-infinity"].include?(value)
+          return infinity_value(value, negative: true) if value.nil? || ["", "-infinity"].include?(value)
 
-          @subtype.deserialize(unquote(value))
+          unquoted = unquote(value)
+          return nil if unquoted.nil?
+          
+          @subtype.deserialize(unquoted)
         end
 
         def parse_upper(value)
-          return infinity_value(value) if ["", "infinity"].include?(value)
+          return infinity_value(value) if value.nil? || ["", "infinity"].include?(value)
 
-          @subtype.deserialize(unquote(value))
+          unquoted = unquote(value)
+          return nil if unquoted.nil?
+          
+          @subtype.deserialize(unquoted)
         end
 
         def extract_range_data(value)
