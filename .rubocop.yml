@@ -1,22 +1,56 @@
 AllCops:
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 3.1.2
+  EnabledByDefault: true
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'bin/{rails,rake}'
 
-Style/StringLiterals:
+require:
+  - rubocop-rails
+
+inherit_from:
+  - node_modules/@prettier/plugin-ruby/rubocop.yml
+
+Style:
+  Enabled: false
+
+Metrics:
+  Enabled: false
+
+Lint:
   Enabled: true
-  EnforcedStyle: double_quotes
 
-Style/StringLiteralsInInterpolation:
+Lint/ConstantResolution:
+  Enabled: false
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Lint/NumberConversion:
+  Enabled: false
+
+Rails:
   Enabled: true
-  EnforcedStyle: double_quotes
 
-Style/Documentation:
+Rails/SkipsModelValidations:
   Enabled: false
 
-Naming/FileName:
+Rails/DefaultScope:
   Enabled: false
 
-Metrics/BlockLength:
+Rails/HasManyOrHasOneDependent:
   Enabled: false
 
-Layout/LineLength:
-  Max: 200
+Rails/InverseOf:
+  Enabled: false
+
+Rails/Date:
+  Enabled: false
+
+Rails/TimeZone:
+  Enabled: false
+
+Rails/RequestReferer:
+  Enabled: false
