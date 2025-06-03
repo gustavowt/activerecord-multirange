@@ -2,7 +2,8 @@ test:
   adapter: postgresql
   encoding: unicode
   host: localhost
-  port: 15434 
+  port: 15432
+  username: postgres
   password: postgres
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: internal_test
+  database: activerecord_multirange_test

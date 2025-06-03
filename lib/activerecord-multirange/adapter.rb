@@ -8,7 +8,7 @@ module Activerecord
         load_multirange_types
       end
 
-      def native_database_types
+      def self.native_database_types
         super.merge(
           {
             datemultirange: {
@@ -37,21 +37,25 @@ module Activerecord
         initializer =
           ::ActiveRecord::ConnectionAdapters::PostgreSQLAdapter::OID::TypeMapInitializer
             .new(type_map)
+        
+        # Query for multirange types and their corresponding base types (not range types)
+        # We need to get the range's subtype (e.g., date) not the range type itself
         query = <<-QUERY.squish
-          SELECT t.oid, t.typname, t.typelem, t.typdelim, t.typinput, r.rngsubtype, t.typtype, t.typbasetype
-          FROM pg_type as t
-          JOIN pg_range as r ON t.oid = r.rngtypid;
+          SELECT m.oid, m.typname, m.typelem, m.typdelim, m.typinput, 
+                 pr.rngsubtype, m.typtype, m.typbasetype
+          FROM pg_type m 
+          JOIN pg_type r ON REPLACE(m.typname, 'multirange', 'range') = r.typname
+          JOIN pg_range pr ON r.oid = pr.rngtypid
+          WHERE m.typtype = 'm';
         QUERY
 
-        if Rails::VERSION::MAJOR < 8
-          execute_and_clear(query, 'SCHEMA', []) do |records|
-            initializer.register_multirange_type(records)
-          end
-        else
-          internal_execute(query, 'SCHEMA', []) do |records|
-            initializer.register_multirange_type(records)
-          end
+        # Use exec_query for all Rails versions since execute_and_clear is private
+        result = exec_query(query, 'SCHEMA', [])
+        # Convert rows to hash format with column names as keys
+        records = result.rows.map do |row|
+          result.columns.zip(row).to_h
         end
+        initializer.register_multirange_type(records)
       end
     end
   end
