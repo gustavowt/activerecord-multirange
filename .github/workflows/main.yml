@@ -44,6 +44,6 @@ jobs:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
       - name: Run the default task
-        run: bundle exec rake
+        run: bundle exec rspec
         env:
           RAILS_VERSION: ${{ matrix.rails-version }}
