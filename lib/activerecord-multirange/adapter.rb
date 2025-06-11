@@ -9,28 +9,7 @@ module Activerecord
       end
 
       def self.native_database_types
-        super.merge(
-          {
-            datemultirange: {
-              name: 'datemultirange'
-            },
-            nummultirange: {
-              name: 'nummultirange'
-            },
-            tsmultirange: {
-              name: 'tsmultirange'
-            },
-            tstzmultirange: {
-              name: 'tstzmultirange'
-            },
-            int4multirange: {
-              name: 'int4multirange'
-            },
-            int8multirange: {
-              name: 'int8multirange'
-            }
-          }
-        )
+        super.merge(Activerecord::Multirange::MULTIRANGE_TYPES)
       end
 
       def load_multirange_types
