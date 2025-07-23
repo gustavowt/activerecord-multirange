@@ -6,6 +6,7 @@ require 'activerecord-multirange/quoting'
 require 'activerecord-multirange/schema_statements'
 require 'activerecord-multirange/table_definition'
 require 'activerecord-multirange/type_map'
+require 'activerecord-multirange/relation'
 require 'active_record'
 
 module Activerecord
@@ -38,6 +39,7 @@ module Activerecord
         ActiveRecord::ConnectionAdapters::PostgreSQL::TableDefinition.prepend(
           TableDefinition
         )
+        ActiveRecord::Relation.prepend(Relation)
       end
     end
 
