@@ -3,6 +3,28 @@ set -euo pipefail
 IFS=$'\n\t'
 set -vx
 
+echo "Setting up activerecord-multirange gem..."
+
+# Install dependencies
 bundle install
 
-# Do any other automated setup that you need to do here
+echo "Starting PostgreSQL with Docker..."
+echo "Make sure Docker is running on your system."
+
+# Start PostgreSQL container
+docker-compose up -d postgres
+
+echo "Waiting for PostgreSQL to be ready..."
+# Wait for PostgreSQL to be ready
+until docker-compose exec postgres pg_isready -U postgres > /dev/null 2>&1; do
+  echo "PostgreSQL is starting up..."
+  sleep 2
+done
+
+echo "PostgreSQL is ready!"
+echo ""
+echo "Setup complete! You can now run tests with:"
+echo "  bundle exec rspec"
+echo ""
+echo "To stop the database when done:"
+echo "  docker-compose down"
