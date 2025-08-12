@@ -31,4 +31,4 @@ module Activerecord
       end
     end
   end
-end 
+end
