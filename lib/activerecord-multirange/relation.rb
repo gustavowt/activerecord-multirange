@@ -3,17 +3,17 @@
 module Activerecord
   module Multirange
     module Relation
-      def where(opts = :chain, *rest)
-        if opts.is_a?(String) && rest.any?
+      def where(*args)
+        if args.length > 1 && args.first.is_a?(String)
           # Convert any arrays of ranges in the parameters to multirange format
-          converted_rest = rest.map do |param|
+          converted_rest = args.from(1).map do |param|
             if array_of_ranges?(param)
               encode_array_as_multirange(param)
             else
               param
             end
           end
-          super(opts, *converted_rest)
+          super(args.first, *converted_rest)
         else
           super
         end

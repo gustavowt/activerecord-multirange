@@ -91,5 +91,11 @@ RSpec.describe "OverlapQueries" do
       contained_records = TestingRecord.where('? <@ column_int4', [15..17])
       expect(contained_records.pluck(:id)).to include(record.id)
     end
+
+    it "doesn't break `where.not` queries that don't use ranges" do
+      expect {
+        TestingRecord.where.not('created_at > ?', Time.now)
+      }.not_to raise_error
+    end
   end
 end
