@@ -20,9 +20,9 @@ module Activerecord
         # Query for multirange types and their corresponding base types (not range types)
         # We need to get the range's subtype (e.g., date) not the range type itself
         query = <<-QUERY.squish
-          SELECT m.oid, m.typname, m.typelem, m.typdelim, m.typinput, 
+          SELECT m.oid, m.typname, m.typelem, m.typdelim, m.typinput::varchar,
                  pr.rngsubtype, m.typtype, m.typbasetype
-          FROM pg_type m 
+          FROM pg_type m
           JOIN pg_range pr ON m.oid = pr.rngmultitypid
           WHERE m.typtype = 'm';
         QUERY
